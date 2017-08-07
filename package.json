@@ -1,0 +1,26 @@
+{
+  "name": "ui-volumeviewer",
+  "version": "1.0.0",
+  "description": "Display t1 volume using mcgill volume viewer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brain-life/ui-volumeviewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brain-life/ui-volumeviewer/issues"
+  },
+  "homepage": "https://github.com/brain-life/ui-volumeviewer#readme",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
