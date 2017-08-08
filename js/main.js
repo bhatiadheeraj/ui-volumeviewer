@@ -1,5 +1,5 @@
 /**
- * UI to display 
+ * UI to display t1 volumes using https://brainbrowser.cbrain.mcgill.ca/
  */
 
 'use strict';
@@ -16,9 +16,8 @@ $(function() {
     var subdir = url.searchParams.get('sdir');
 
     if(config.debug) {
-        task_id = "59838f6f841a822e8b3872e0";
-        // subdir = "output";
-        config.wf_api = "https://brainlife.duckdns.org/api/wf";
+        task_id = "595fcb7c0f3f5d43e5bf2c95";
+        config.wf_api = "https://dev1.soichi.us/api/wf";
     }
 
     if (!config.jwt) {
