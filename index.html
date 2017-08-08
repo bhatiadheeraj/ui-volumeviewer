@@ -2,11 +2,91 @@
 <html>
     <head>
         <title>Volume Viewer</title>
+        <link href="//fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/main.css" />
-    </head>
-    <body>
+        <link rel="stylesheet" type="text/css" href="node_modules/jquery-ui-dist/jquery-ui.min.css" />
+        
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+        
+        <!-- <script type="text/javascript" src="node_modules/pako/dist/pako.min.js"></script> -->
         <script src="//brainbrowser.cbrain.mcgill.ca/js/brainbrowser/brainbrowser.volume-viewer.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+    </head>
+    <body>
+        <!-- TODO: Make this UI look less crappy -->
+        <div id="view"></div>
+        <script id="volume-ui-template" type="x-volume-ui-template">
+            <div class="volume-viewer-display"></div>
+            <div class="volume-viewer-controls volume-controls">
+
+                <div class="coords">
+                    <div class="world-coords item" data-volume-id="{{VOLID}}">
+                        World Coordinates:
+                        X: <input id="world-x-{{VOLID}}" class="control-inputs">
+                        Y: <input id="world-y-{{VOLID}}" class="control-inputs">
+                        Z: <input id="world-z-{{VOLID}}" class="control-inputs">
+                    </div>
+                    <div class="voxel-coords item" data-volume-id="{{VOLID}}">
+                        Voxel Coordinates: &nbsp;
+                        I: <input id="voxel-i-{{VOLID}}" class="control-inputs">
+                        J: <input id="voxel-j-{{VOLID}}" class="control-inputs">
+                        K: <input id="voxel-k-{{VOLID}}" class="control-inputs">
+                    </div>
+                </div>
+
+                <div class="threshold-div item" data-volume-id="{{VOLID}}">
+                    <div class="thresh-inputs">
+                        Threshold:
+                        <input id="min-threshold-{{VOLID}}" class="control-inputs thresh-input-left" value="0"/>
+                        <input id="max-threshold-{{VOLID}}" class="control-inputs thresh-input-right" value="255"/>
+                    </div>
+                    <div class="slider volume-viewer-threshold" id="threshold-slider-{{VOLID}}"></div>
+                </div>
+
+                <div id="time-{{VOLID}}" class="time-div item" data-volume-id="{{VOLID}}" style="display:none">
+                    <span class="control-heading">Time:</span>
+                    <input class="control-inputs" value="0" id="time-val-{{VOLID}}"/>
+                    <div class="slider volume-viewer-threshold" id="threshold-time-slider-{{VOLID}}"></div>
+                    <input type="checkbox" class="button" id="play-{{VOLID}}"><label for="play-{{VOLID}}">Play</label>
+                </div>
+
+                <div class="contrast-div item" data-volume-id="">
+                    <span class="control-heading" id="contrast-heading">Contrast (0.0 to 2.0):</span>
+                    <input class="control-inputs" value="1.0" id="contrast-val"/>
+                    <div id="contrast-slider" class="slider volume-viewer-contrast"></div>
+                </div>
+
+                <div class="brightness-div item" data-volume-id="">
+                    <span class="control-heading" id="brightness-heading">Brightness (-1 to 1):</span>
+                    <input class="control-inputs" value="0" id="brightness-val"/>
+                    <div id="brightness-slider" class="slider volume-viewer-brightness"></div>
+                </div>
+
+            </div>
+        </script>
+        <script id="overlay-ui-template" type="x-volume-ui-template">
+            <div class="overlay-viewer-display"></div>
+            <div class="volume-viewer-controls volume-controls">
+
+                <div class="blend-div item" data-volume-id="{{VOLID}}">
+                    <span class="control-heading" id="blend-heading{{VOLID}}">Blend (0.0 to 1.0):</span>
+                    <input class="control-inputs" value="0.5" id="blend-val"/>
+                    <div id="blend-slider" class="slider volume-viewer-blend"></div>
+                </div>
+
+                <div class="contrast-div item" data-volume-id="">
+                    <span class="control-heading" id="contrast-heading">Contrast (0.0 to 2.0):</span>
+                    <input class="control-inputs" value="1.0" id="contrast-val"/>
+                    <div id="contrast-slider" class="slider volume-viewer-contrast"></div>
+                </div>
+
+                <div class="brightness-div item" data-volume-id="">
+                    <span class="control-heading" id="brightness-heading">Brightness (-1 to 1):</span>
+                    <input class="control-inputs" value="0" id="brightness-val"/>
+                    <div id="brightness-slider" class="slider volume-viewer-brightness"></div>
+                </div>
+            </div>
+        </script>
     </body>
 </html>
