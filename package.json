@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/brain-life/ui-volumeviewer#readme",
   "dependencies": {
+    "brainbrowser": "github:aces/brainbrowser",
     "jquery": "^3.2.1",
-    "jquery-ui-dist": "^1.12.1"
+    "jquery-ui-dist": "^1.12.1",
+    "pako": "^1.0.5"
   },
   "devDependencies": {
     "lite-server": "^2.3.0"

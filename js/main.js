@@ -16,7 +16,9 @@ $(function() {
     var subdir = url.searchParams.get('sdir');
 
     if(config.debug) {
-        task_id = "595fcb7c0f3f5d43e5bf2c95";
+        console.log("using debug config");
+        task_id = "598490f288763f4ec6334dca";
+        subdir = "59592226b5212a2bfece17e2";
         config.wf_api = "https://dev1.soichi.us/api/wf";
     }
 
@@ -50,19 +52,12 @@ $(function() {
                   "&p="+encodeURIComponent(base+"/t1.nii.gz") +
                   "&at="+config.jwt)
             .then(res => res.arrayBuffer())
-            .then(t1_buff => {
-                // load the nifti from the downloaded array buffer
-                /**
-                 * Load array buffer data from t1.nii.gz
-                 * Inflate array buffer
-                 * Create a blob from the inflated buffer
-                 * Create an object url from the blob
-                 * Use the url as the link to the uncompressed nii
-                 */
+            .then(t1gz => {
+                var t1 = pako.inflate(t1gz);
                 viewer.loadVolumes({
                     volumes: [{
                         type: 'nifti1',
-                        nii_url: URL.createObjectURL( new Blob([ pako.inflate(t1_buff) ]) ),
+                        nii_source: t1.buffer,
                         template: {
                             element_id: 'volume-ui-template',
                             viewer_insert_class: 'volume-viewer-display'
