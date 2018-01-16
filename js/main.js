@@ -45,8 +45,8 @@ $(function() {
             viewer.loadDefaultColorMapFromURL('color_maps/gray_scale.txt', '#ff0000');
             
             //load t1 and pass it to volume viewer
-            var base = task.instance_id + '/' + task._id;
-            if (subdir) base += '/' + subdir;
+            var base = "";
+            if (subdir) base += subdir+"/";
 
             function load_nifti(res) {
                 if(!res.ok) throw new Error("Failed to fetch");
@@ -75,15 +75,11 @@ $(function() {
             //TODO - currently we aren't passing datatype so I have no way of 
             //knowing what sort of volume we need to display
             console.log("tryinng as t1");
-            fetch(config.wf_api + "/resource/download?r=" + task.resource_id +
-                  "&p="+encodeURIComponent(base+"/t1.nii.gz") +
-                  "&at="+config.jwt)
+            fetch(config.wf_api + "/task/download/"+task._id+"?p="+encodeURIComponent(base+"t1.nii.gz")+"&at="+config.jwt)
             .then(load_nifti)
             .catch(err=>{
                 console.log("tryinng as mask");
-                fetch(config.wf_api + "/resource/download?r=" + task.resource_id +
-                      "&p="+encodeURIComponent(base+"/mask.nii.gz") +
-                      "&at="+config.jwt)
+                fetch(config.wf_api + "/task/download/"+task._id+"?p="+encodeURIComponent(base+"mask.nii.gz")+"&at="+config.jwt)
                 .then(load_nifti)
                 .catch(console.error);
             });
