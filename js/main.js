@@ -45,31 +45,43 @@ $(function() {
             viewer.loadDefaultColorMapFromURL('color_maps/gray_scale.txt', '#ff0000');
             
             //load t1 and pass it to volume viewer
-            var base = task.instance_id + '/' + task._id;
-            if (subdir) base += '/' + subdir;
-            
-            fetch(config.wf_api + "/resource/download?r=" + task.resource_id +
-                  "&p="+encodeURIComponent(base+"/t1.nii.gz") +
-                  "&at="+config.jwt)
-            .then(res => res.arrayBuffer())
-            .then(t1gz => {
-                var t1 = pako.inflate(t1gz);
-                viewer.loadVolumes({
-                    volumes: [{
-                        type: 'nifti1',
-                        nii_source: t1.buffer,
-                        template: {
-                            element_id: 'volume-ui-template',
-                            viewer_insert_class: 'volume-viewer-display'
+            var base = "";
+            if (subdir) base += subdir+"/";
+
+            function load_nifti(res) {
+                if(!res.ok) throw new Error("Failed to fetch");
+                console.log("loading nifti");
+                res.arrayBuffer().then(t1gz=>{
+                    var t1 = pako.inflate(t1gz);
+                    viewer.loadVolumes({
+                        volumes: [{
+                            type: 'nifti1',
+                            nii_source: t1.buffer,
+                            template: {
+                                element_id: 'volume-ui-template',
+                                viewer_insert_class: 'volume-viewer-display'
+                            }
+                        }],
+                        overlay: {
+                            template: {
+                                element_id: 'overlay-ui-template',
+                                viewer_insert_class: 'overlay-viewer-display'
+                            }
                         }
-                    }],
-                    overlay: {
-                        template: {
-                            element_id: 'overlay-ui-template',
-                            viewer_insert_class: 'overlay-viewer-display'
-                        }
-                    }
+                    });
                 });
+            }
+            
+            //TODO - currently we aren't passing datatype so I have no way of 
+            //knowing what sort of volume we need to display
+            console.log("tryinng as t1");
+            fetch(config.wf_api + "/task/download/"+task._id+"?p="+encodeURIComponent(base+"t1.nii.gz")+"&at="+config.jwt)
+            .then(load_nifti)
+            .catch(err=>{
+                console.log("tryinng as mask");
+                fetch(config.wf_api + "/task/download/"+task._id+"?p="+encodeURIComponent(base+"mask.nii.gz")+"&at="+config.jwt)
+                .then(load_nifti)
+                .catch(console.error);
             });
             
             // resize the display panels when the window is resized
