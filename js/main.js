@@ -6,7 +6,7 @@
 $(function() {
     
     var config = {
-        wf_api: '/api/wf',
+        wf_api: '/api/amaretti',
         jwt: localStorage.getItem('jwt'),
         debug: true,
     };
@@ -19,7 +19,7 @@ $(function() {
         console.log("using debug config");
         task_id = "598490f288763f4ec6334dca";
         subdir = "59592226b5212a2bfece17e2";
-        config.wf_api = "https://dev1.soichi.us/api/wf";
+        config.wf_api = "https://dev1.soichi.us/api/amaretti";
     }
 
     if (!config.jwt) {
