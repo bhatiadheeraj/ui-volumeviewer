@@ -15,11 +15,18 @@ $(function() {
         viewer.loadDefaultColorMapFromURL('color_maps/gray_scale.txt', '#ff0000');
         
         function load_nifti(res) {
+
+            /* if we know the content-length, I can show progress bar as it's loaded
+             * view-source:https://fetch-progress.anthum.com/fetch-basic/supported-browser.js
+            const contentLength = res.headers.get('content-length');
+            console.log(contentLength);
+            */
+
             if(!res.ok) throw new Error("Failed to fetch");
-            console.log("loading nifti");
             res.arrayBuffer().then(t1gz=>{
                 var t1 = pako.inflate(t1gz);
-                console.log("done loading");
+                var loading_elem = document.getElementById("loading");
+                loading_elem.style.display = "none";
                 viewer.loadVolumes({
                     volumes: [{
                         type: 'nifti1',
